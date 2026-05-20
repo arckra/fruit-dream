@@ -1,0 +1,402 @@
+Berikut adalah kode HTML yang telah diperbaiki dengan jarak antar kotak menu, animasi scroll halus pada navbar, foto asli sandwich di atas kotak, dan tombol WhatsApp di kanan bawah:
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fruit Dream Sandwich</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Custom Tailwind config untuk theme ekstensi -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          'poppins': ['Poppins', 'sans-serif'],
+          'quicksand': ['Quicksand', 'sans-serif'],
+          'dancing': ['Dancing Script', 'cursive'],
+        },
+        colors: {
+          peach: '#FFD8BE',
+          peachDeep: '#FFBB99',
+          mint: '#C8E6D9',
+          mintDeep: '#A0D4BF',
+          cream: '#FFF9F0',
+          gold: '#F7C873',
+          goldDeep: '#E8A830',
+          berry: '#E8A2A2',
+          berryDeep: '#D47070',
+          dark: '#3A2E28',
+          mid: '#6B5344',
+          lightText: '#9C7B6A',
+          waGreen: '#25D366',
+        },
+        borderRadius: {
+          'sm': '12px',
+          'md': '20px',
+          'lg': '32px',
+          'full': '999px',
+        },
+        boxShadow: {
+          'sm': '0 4px 12px -2px rgba(100,60,30,0.10)',
+          'md': '0 12px 32px -8px rgba(100,60,30,0.14)',
+          'lg': '0 24px 56px -12px rgba(100,60,30,0.18)',
+        },
+        animation: {
+          'float': 'float 6s ease-in-out infinite',
+          'blob': 'blob 8s ease-in-out infinite',
+        },
+        keyframes: {
+          float: {
+            '0%, 100%': { transform: 'translateY(0) rotate(0deg)' },
+            '33%': { transform: 'translateY(-14px) rotate(5deg)' },
+            '66%': { transform: 'translateY(8px) rotate(-4deg)' },
+          },
+          blob: {
+            '0%,100%': { borderRadius: '60% 40% 55% 45% / 45% 55% 40% 60%' },
+            '50%': { borderRadius: '40% 60% 45% 55% / 55% 45% 60% 40%' },
+          }
+        }
+      }
+    }
+  }
+</script>
+<style>
+  /* CSS tambahan yang tidak bisa digantikan Tailwind */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+  .floater {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+    font-size: 2rem;
+    animation: float 6s ease-in-out infinite;
+    opacity: 0.55;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-14px) rotate(5deg); }
+    66% { transform: translateY(8px) rotate(-4deg); }
+  }
+  @keyframes blob {
+    0%,100% { border-radius: 60% 40% 55% 45% / 45% 55% 40% 60%; }
+    50% { border-radius: 40% 60% 45% 55% / 55% 45% 60% 40%; }
+  }
+  .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(100,60,30,0.10); }
+  
+  /* Smooth scroll behavior untuk seluruh halaman */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-badge.b3 { display: none; }
+  }
+</style>
+</head>
+<body class="bg-cream text-dark font-quicksand overflow-x-hidden relative">
+
+<!-- NAV -->
+<nav id="nav" class="fixed top-0 left-0 right-0 z-[100] py-[18px] px-8 flex items-center justify-between backdrop-blur-[20px] bg-[rgba(255,249,240,0.82)] border-b border-[rgba(247,200,115,0.25)] transition-shadow duration-300">
+  <div class="nav-logo font-dancing text-[1.6rem] text-mid"><span class="text-goldDeep">Fruit</span> Dream</div>
+  <ul class="nav-links flex gap-8 list-none">
+    <li><a href="#taste" class="font-quicksand font-semibold text-[0.88rem] text-mid no-underline tracking-[0.04em] hover:text-goldDeep transition-colors">Sensasi</a></li>
+    <li><a href="#menu" class="font-quicksand font-semibold text-[0.88rem] text-mid no-underline tracking-[0.04em] hover:text-goldDeep transition-colors">Menu</a></li>
+    <li><a href="#testimonial" class="font-quicksand font-semibold text-[0.88rem] text-mid no-underline tracking-[0.04em] hover:text-goldDeep transition-colors">Review</a></li>
+    <li><a href="#order" class="font-quicksand font-semibold text-[0.88rem] text-mid no-underline tracking-[0.04em] hover:text-goldDeep transition-colors">Order</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero min-h-screen flex items-center bg-gradient-to-br from-[#FFF4EC] via-[#FFE8D5] via-35% to-[#FFF9F0] overflow-hidden pt-20 relative" id="hero">
+  <!-- floating decors -->
+  <span class="floater" style="top:18%;left:8%;font-size:1.6rem;animation-delay:-0.5s">🍓</span>
+  <span class="floater" style="top:70%;left:6%;font-size:2rem;animation-delay:-2s">🍯</span>
+  <span class="floater" style="top:25%;right:10%;font-size:1.4rem;animation-delay:-3s">🥝</span>
+  <span class="floater" style="top:75%;right:8%;font-size:1.7rem;animation-delay:-1s">🫐</span>
+  <span class="floater" style="top:50%;right:24%;font-size:1.2rem;animation-delay:-4s">⭐</span>
+  <span class="floater" style="top:15%;left:40%;font-size:1rem;animation-delay:-1.5s">✨</span>
+
+  <div class="hero-inner grid md:grid-cols-2 gap-16 items-center w-full max-w-[1200px] mx-auto py-20 px-8 md:px-8">
+    <div class="hero-content">
+      <div class="hero-tag inline-flex items-center gap-2 bg-[rgba(247,200,115,0.25)] border border-[rgba(247,200,115,0.5)] text-goldDeep text-[0.78rem] font-bold tracking-[0.12em] uppercase py-1.5 px-4 rounded-full mb-6 before:content-['✦'] before:text-[0.7rem] before:mr-0 before:inline">Fresh · Dreamy · Handmade</div>
+      <h1 class="hero-headline font-poppins font-black text-dark leading-[1.0] tracking-[-0.03em] mb-2 text-[clamp(3.5rem,7vw,5.5rem)]">
+        Fruit
+        <span class="dream block text-transparent [-webkit-text-stroke:2.5px_#FFBB99] [filter:drop-shadow(0_0_20px_rgba(255,187,153,0.5))]">Dream</span>
+      </h1>
+      <span class="hero-script font-dancing text-[clamp(1.8rem,3vw,2.6rem)] text-berryDeep mb-5 block font-semibold">Dreamy Bites ✨</span>
+      <p class="hero-sub text-[1rem] font-medium text-lightText leading-relaxed mb-10 max-w-[420px]">Sandwich buah segar dengan whipped cream lembut & granola renyah — setiap gigitan seperti mimpi sore hari yang sempurna.</p>
+      <div class="hero-cta">
+        <div class="btn-group flex gap-3.5 flex-wrap">
+          <a href="https://wa.me/6281234567890?text=Halo!%20Saya%20ingin%20order%20Fruit%20Dream%20Sandwich%20%F0%9F%8D%93" class="btn btn-wa inline-flex items-center gap-2.5 py-4 px-7 rounded-full bg-[#25D366] text-white font-quicksand text-[0.92rem] font-bold tracking-[0.02em] no-underline transition-all duration-300 shadow-sm hover:bg-[#1DAA54] hover:-translate-y-1 hover:scale-104 hover:shadow-[0_12px_30px_rgba(37,211,102,0.38)]" target="_blank" rel="noopener">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Pesan via WhatsApp
+          </a>
+          <a href="https://instagram.com/fruitdreamsandwich" class="btn btn-ig inline-flex items-center gap-2.5 py-4 px-7 rounded-full bg-gradient-to-r from-[#833ab4] via-[#fd1d1d] to-[#fcb045] text-white font-quicksand text-[0.92rem] font-bold tracking-[0.02em] no-underline transition-all duration-300 shadow-sm hover:-translate-y-1 hover:scale-104 hover:shadow-[0_12px_30px_rgba(200,50,100,0.35)]" target="_blank" rel="noopener">
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Lihat di Instagram
+          </a>
+        </div>
+        <p class="cta-hint text-[0.78rem] text-lightText font-medium tracking-[0.01em] mt-4">Klik untuk order langsung via chat atau lihat galeri kami 🍃</p>
+      </div>
+    </div>
+
+    <div class="hero-visual relative flex items-center justify-center h-[520px] md:h-[520px]">
+      <div class="sandwich-blob absolute w-[420px] h-[420px] rounded-[60%_40%_55%_45%_/_45%_55%_40%_60%] bg-[radial-gradient(ellipse_at_40%_40%,rgba(255,216,190,0.7)_0%,rgba(200,230,217,0.5)_60%,transparent_100%)] animate-blob"></div>
+      <span class="sandwich-emoji text-[11rem] relative z-[2] [filter:drop-shadow(0_20px_40px_rgba(200,120,80,0.25))] animate-float">🥪</span>
+
+      <div class="hero-badge b1 absolute bg-white rounded-md py-3 px-[18px] shadow-md flex items-center gap-2.5 text-[0.82rem] font-bold text-dark z-[3] animate-float top-[60px] right-[20px]" style="animation-delay:-1s">
+        <div class="badge-dot peach w-9 h-9 rounded-full flex items-center justify-center text-[1.2rem] bg-[rgba(255,216,190,0.6)]">🍓</div>
+        <div><div class="text-[0.75rem] text-lightText font-semibold mb-px">Real Fruits</div><div>Fresh Daily ✓</div></div>
+      </div>
+      <div class="hero-badge b2 absolute bg-white rounded-md py-3 px-[18px] shadow-md flex items-center gap-2.5 text-[0.82rem] font-bold text-dark z-[3] animate-float bottom-[100px] left-0" style="animation-delay:-3.5s">
+        <div class="badge-dot mint w-9 h-9 rounded-full flex items-center justify-center text-[1.2rem] bg-[rgba(200,230,217,0.6)]">🥛</div>
+        <div><div class="text-[0.75rem] text-lightText font-semibold mb-px">Whipped Cream</div><div>Velvety Smooth ✓</div></div>
+      </div>
+      <div class="hero-badge b3 absolute bg-white rounded-md py-3 px-[18px] shadow-md flex items-center gap-2.5 text-[0.82rem] font-bold text-dark z-[3] animate-float top-[200px] left-[-10px]" style="animation-delay:-2s">
+        <div class="badge-dot gold w-9 h-9 rounded-full flex items-center justify-center text-[1.2rem] bg-[rgba(247,200,115,0.4)]">🌾</div>
+        <div><div class="text-[0.75rem] text-lightText font-semibold mb-px">Honey Granola</div><div>Extra Crunchy ✓</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<div class="wave-divider leading-[0] overflow-hidden">
+  <svg viewBox="0 0 1440 60" preserveAspectRatio="none" height="60" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,20 1440,30 L1440,0 L0,0 Z" fill="#FFE8D5" opacity="0.5"/>
+    <path d="M0,40 C280,10 600,55 960,25 C1200,5 1350,45 1440,40 L1440,0 L0,0 Z" fill="#FFF6F0"/>
+  </svg>
+</div>
+
+<!-- TASTE THE DREAM -->
+<section class="taste-section py-[120px] bg-cream text-center" id="taste">
+  <div class="container max-w-[1200px] mx-auto px-8 md:px-8">
+    <div class="reveal">
+      <div class="section-label inline-flex items-center gap-2 text-[0.75rem] font-bold tracking-[0.14em] uppercase text-goldDeep mb-4 before:content-[''] before:w-6 before:h-[1.5px] before:bg-gold before:rounded after:content-[''] after:w-6 after:h-[1.5px] after:bg-gold after:rounded">Sensasi</div>
+      <h2 class="section-title font-poppins font-extrabold text-dark leading-[1.15] tracking-[-0.02em] text-[clamp(2rem,4vw,3rem)]">Taste the <span class="accent text-berryDeep">Dream</span></h2>
+      <p class="section-sub text-[1rem] text-lightText font-medium leading-relaxed max-w-[520px] mx-auto mt-4">Tiga elemen sempurna yang berpadu menciptakan pengalaman rasa yang tak terlupakan.</p>
+    </div>
+    <div class="taste-cards grid md:grid-cols-3 gap-7 mt-14">
+      <div class="taste-card bg-white rounded-lg py-11 px-8 shadow-sm border border-[rgba(247,200,115,0.2)] transition-all duration-300 hover:-translate-y-2 hover:shadow-lg relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-gradient-to-r before:from-peachDeep before:to-gold before:opacity-0 hover:before:opacity-100 reveal reveal-delay-1">
+        <div class="taste-icon fruit w-20 h-20 rounded-full flex items-center justify-center text-[2.2rem] bg-[rgba(255,216,190,0.5)] mx-auto mb-6">🍓</div>
+        <h3 class="font-poppins text-[1.15rem] font-bold text-dark mb-3 tracking-[-0.01em]">Real Fruit Explosion</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed">Potongan buah segar pilihan — stroberi, mangga, kiwi, pisang — yang meledak di setiap gigitan. Manis alami, tanpa tambahan sirup buatan.</p>
+      </div>
+      <div class="taste-card bg-white rounded-lg py-11 px-8 shadow-sm border border-[rgba(247,200,115,0.2)] transition-all duration-300 hover:-translate-y-2 hover:shadow-lg relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-gradient-to-r before:from-peachDeep before:to-gold before:opacity-0 hover:before:opacity-100 reveal reveal-delay-2">
+        <div class="taste-icon cream w-20 h-20 rounded-full flex items-center justify-center text-[2.2rem] bg-[rgba(200,230,217,0.5)] mx-auto mb-6">🥛</div>
+        <h3 class="font-poppins text-[1.15rem] font-bold text-dark mb-3 tracking-[-0.01em]">Velvety Whipped Cream</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed">Krim kocok lembut dengan tekstur ringan seperti awan. Dibuat segar setiap hari, sempurna menyeimbangkan rasa asam buah yang segar.</p>
+      </div>
+      <div class="taste-card bg-white rounded-lg py-11 px-8 shadow-sm border border-[rgba(247,200,115,0.2)] transition-all duration-300 hover:-translate-y-2 hover:shadow-lg relative overflow-hidden before:content-[''] before:absolute before:top-0 before:left-0 before:right-0 before:h-1 before:bg-gradient-to-r before:from-peachDeep before:to-gold before:opacity-0 hover:before:opacity-100 reveal reveal-delay-3">
+        <div class="taste-icon granola w-20 h-20 rounded-full flex items-center justify-center text-[2.2rem] bg-[rgba(247,200,115,0.35)] mx-auto mb-6">🌾</div>
+        <h3 class="font-poppins text-[1.15rem] font-bold text-dark mb-3 tracking-[-0.01em]">Crunchy Honey Granola</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed">Granola panggang dengan madu asli, memberikan kerenyahan sempurna di setiap lapisan. Kontras tekstur yang bikin nagih.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE 2 -->
+<div class="wave-divider leading-[0] overflow-hidden -scale-y-100">
+  <svg viewBox="0 0 1440 50" preserveAspectRatio="none" height="50" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,25 C400,50 800,0 1200,30 C1350,40 1420,20 1440,25 L1440,0 L0,0 Z" fill="#F0F8F5" opacity="0.7"/>
+  </svg>
+</div>
+
+<!-- SIGNATURE MENU - DENGAN JARAK ANTAR KOTAK & FOTO ASLI -->
+<section class="menu-section py-[120px] bg-gradient-to-b from-[#FFF6F0] via-[#F0F8F5] to-[#FFF9F0] overflow-hidden" id="menu">
+  <div class="container max-w-[1200px] mx-auto px-8 md:px-8">
+    <div class="menu-header text-center mb-16 reveal">
+      <div class="section-label inline-flex items-center gap-2 text-[0.75rem] font-bold tracking-[0.14em] uppercase text-goldDeep mb-4 before:content-[''] before:w-6 before:h-[1.5px] before:bg-gold before:rounded after:content-[''] after:w-6 after:h-[1.5px] after:bg-gold after:rounded">Signature Menu</div>
+      <h2 class="section-title font-poppins font-extrabold text-dark leading-[1.15] tracking-[-0.02em] text-[clamp(2rem,4vw,3rem)]">Pilihan <span class="accent text-berryDeep">Sandwich</span> Kami</h2>
+      <p class="section-sub text-[1rem] text-lightText font-medium leading-relaxed max-w-[520px] mx-auto mt-4">Setiap varian dirancang dengan kombinasi buah yang unik dan harmonis.</p>
+    </div>
+    <div class="menu-grid grid md:grid-cols-2 gap-x-8 gap-y-12 max-w-[1000px] mx-auto">
+      <!-- Card 1: Berry Dream - dengan jarak antar kotak yang lega -->
+      <div class="menu-card relative bg-white rounded-2xl py-8 px-6 shadow-md border border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden cursor-pointer group reveal reveal-delay-1 flex flex-col">
+        <!-- FOTO ASLI DI ATAS KOTAK (dalam card yang sama) -->
+        <div class="w-full h-48 rounded-xl mb-5 overflow-hidden bg-peach/30 flex items-center justify-center shadow-sm">
+          <img src="https://placehold.co/600x400/FFB7B2/FFFFFF?text=Berry+Dream+Sandwich" alt="Berry Dream Sandwich" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+        </div>
+        <span class="menu-emoji text-5xl mb-3 block [filter:drop-shadow(0_4px_8px_rgba(0,0,0,0.1))]">🍓</span>
+        <h3 class="font-poppins text-[1.4rem] font-bold text-dark mb-2">Berry Dream</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed mb-3">Stroberi segar, blueberry, raspberry dengan whipped cream rose water dan granola almond panggang.</p>
+        <span class="menu-tag tag-berry inline-block w-fit mt-2 py-1.5 px-4 rounded-full text-[0.72rem] font-bold tracking-[0.05em] bg-[rgba(232,162,162,0.2)] text-berryDeep">Paling Favorit ✦</span>
+        <!-- Tombol Tanyakan via WA di kanan bawah kotak -->
+        <div class="absolute bottom-5 right-5">
+          <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Berry%20Dream" target="_blank" class="inline-flex items-center gap-1.5 bg-waGreen text-white text-xs font-bold py-2.5 px-4 rounded-full hover:bg-[#1DAA54] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">💬 Tanyakan via WA</a>
+        </div>
+      </div>
+      <!-- Card 2: Mango Sunshine -->
+      <div class="menu-card relative bg-white rounded-2xl py-8 px-6 shadow-md border border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden cursor-pointer group reveal reveal-delay-2 flex flex-col">
+        <div class="w-full h-48 rounded-xl mb-5 overflow-hidden bg-peach/30 flex items-center justify-center shadow-sm">
+          <img src="https://placehold.co/600x400/FFD966/FFFFFF?text=Mango+Sunshine+Sandwich" alt="Mango Sunshine Sandwich" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+        </div>
+        <span class="menu-emoji text-5xl mb-3 block [filter:drop-shadow(0_4px_8px_rgba(0,0,0,0.1))]">🥭</span>
+        <h3 class="font-poppins text-[1.4rem] font-bold text-dark mb-2">Mango Sunshine</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed mb-3">Mangga harum manis, irisan jeruk mandarin, dengan krim vanilla dan granola madu kelapa.</p>
+        <span class="menu-tag tag-mango inline-block w-fit mt-2 py-1.5 px-4 rounded-full text-[0.72rem] font-bold tracking-[0.05em] bg-[rgba(247,200,115,0.25)] text-[#B8860B]">Terlaris Summer</span>
+        <div class="absolute bottom-5 right-5">
+          <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Mango%20Sunshine" target="_blank" class="inline-flex items-center gap-1.5 bg-waGreen text-white text-xs font-bold py-2.5 px-4 rounded-full hover:bg-[#1DAA54] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">💬 Tanyakan via WA</a>
+        </div>
+      </div>
+      <!-- Card 3: Kiwi Cloud -->
+      <div class="menu-card relative bg-white rounded-2xl py-8 px-6 shadow-md border border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden cursor-pointer group reveal reveal-delay-3 flex flex-col">
+        <div class="w-full h-48 rounded-xl mb-5 overflow-hidden bg-peach/30 flex items-center justify-center shadow-sm">
+          <img src="https://placehold.co/600x400/9FD9BF/FFFFFF?text=Kiwi+Cloud+Sandwich" alt="Kiwi Cloud Sandwich" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+        </div>
+        <span class="menu-emoji text-5xl mb-3 block [filter:drop-shadow(0_4px_8px_rgba(0,0,0,0.1))]">🥝</span>
+        <h3 class="font-poppins text-[1.4rem] font-bold text-dark mb-2">Kiwi Cloud</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed mb-3">Kiwi segar, anggur hijau, mint, dengan whipped cream matcha lembut dan granola biji labu.</p>
+        <span class="menu-tag tag-kiwi inline-block w-fit mt-2 py-1.5 px-4 rounded-full text-[0.72rem] font-bold tracking-[0.05em] bg-[rgba(200,230,217,0.45)] text-[#2E7D52]">Segar & Ringan</span>
+        <div class="absolute bottom-5 right-5">
+          <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Kiwi%20Cloud" target="_blank" class="inline-flex items-center gap-1.5 bg-waGreen text-white text-xs font-bold py-2.5 px-4 rounded-full hover:bg-[#1DAA54] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">💬 Tanyakan via WA</a>
+        </div>
+      </div>
+      <!-- Card 4: Banana Honey -->
+      <div class="menu-card relative bg-white rounded-2xl py-8 px-6 shadow-md border border-transparent transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden cursor-pointer group reveal reveal-delay-4 flex flex-col">
+        <div class="w-full h-48 rounded-xl mb-5 overflow-hidden bg-peach/30 flex items-center justify-center shadow-sm">
+          <img src="https://placehold.co/600x400/FFF0B5/FFFFFF?text=Banana+Honey+Sandwich" alt="Banana Honey Sandwich" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+        </div>
+        <span class="menu-emoji text-5xl mb-3 block [filter:drop-shadow(0_4px_8px_rgba(0,0,0,0.1))]">🍌</span>
+        <h3 class="font-poppins text-[1.4rem] font-bold text-dark mb-2">Banana Honey</h3>
+        <p class="text-[0.9rem] text-lightText font-medium leading-relaxed mb-3">Pisang cavendish manis, kenari panggang, dengan krim karamel madu dan granola oat klasik.</p>
+        <span class="menu-tag tag-banana inline-block w-fit mt-2 py-1.5 px-4 rounded-full text-[0.72rem] font-bold tracking-[0.05em] bg-[rgba(255,245,180,0.5)] text-[#8B6914]">Comfort Dream</span>
+        <div class="absolute bottom-5 right-5">
+          <a href="https://wa.me/6281234567890?text=Saya%20ingin%20tanya%20ketersediaan%20Banana%20Honey" target="_blank" class="inline-flex items-center gap-1.5 bg-waGreen text-white text-xs font-bold py-2.5 px-4 rounded-full hover:bg-[#1DAA54] transition-all duration-300 shadow-md hover:shadow-lg hover:scale-105">💬 Tanyakan via WA</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTES / TESTIMONIALS -->
+<section class="quotes-section py-[120px] bg-cream text-center relative overflow-hidden" id="testimonial">
+  <div class="container max-w-[1200px] mx-auto px-8 md:px-8">
+    <div class="reveal">
+      <div class="section-label inline-flex items-center gap-2 text-[0.75rem] font-bold tracking-[0.14em] uppercase text-goldDeep mb-4 before:content-[''] before:w-6 before:h-[1.5px] before:bg-gold before:rounded after:content-[''] after:w-6 after:h-[1.5px] after:bg-gold after:rounded">Kata Mereka</div>
+      <h2 class="section-title font-poppins font-extrabold text-dark leading-[1.15] tracking-[-0.02em] text-[clamp(2rem,4vw,3rem)]">Dreamy <span class="accent text-berryDeep">Reviews</span></h2>
+    </div>
+    <div class="quotes-grid grid md:grid-cols-2 gap-6 mt-14 max-w-[900px] mx-auto relative z-[2]">
+      <div class="quote-card bg-white/70 backdrop-blur-md border border-[rgba(247,200,115,0.3)] rounded-lg py-10 px-9 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md relative reveal reveal-delay-1 before:content-['✦'] before:absolute before:top-6 before:left-7 before:text-gold before:opacity-70">
+        <div class="stars text-goldDeep text-[0.9rem] mb-2.5">★★★★★</div>
+        <blockquote class="font-dancing text-[1.5rem] text-mid font-semibold leading-relaxed mb-5">"Setiap gigitan terasa seperti mimpi di sore hari yang sempurna."</blockquote>
+        <div class="quote-author text-[0.82rem] font-bold text-lightText tracking-[0.06em] uppercase">— Naura A., Jakarta Selatan</div>
+      </div>
+      <div class="quote-card bg-white/70 backdrop-blur-md border border-[rgba(247,200,115,0.3)] rounded-lg py-10 px-9 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md relative reveal reveal-delay-2 before:content-['✦'] before:absolute before:top-6 before:left-7 before:text-gold before:opacity-70">
+        <div class="stars text-goldDeep text-[0.9rem] mb-2.5">★★★★★</div>
+        <blockquote class="font-dancing text-[1.5rem] text-mid font-semibold leading-relaxed mb-5">"Dipenuhi madu dan senyum. Gak nyesel pesan buat arisan!"</blockquote>
+        <div class="quote-author text-[0.82rem] font-bold text-lightText tracking-[0.06em] uppercase">— Rizka M., Tangerang</div>
+      </div>
+      <div class="quote-card bg-white/70 backdrop-blur-md border border-[rgba(247,200,115,0.3)] rounded-lg py-10 px-9 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md relative reveal reveal-delay-3 before:content-['✦'] before:absolute before:top-6 before:left-7 before:text-gold before:opacity-70">
+        <div class="stars text-goldDeep text-[0.9rem] mb-2.5">★★★★★</div>
+        <blockquote class="font-dancing text-[1.5rem] text-mid font-semibold leading-relaxed mb-5">"Cantik banget presentasinya, dan rasanya lebih enak dari yang keliatan."</blockquote>
+        <div class="quote-author text-[0.82rem] font-bold text-lightText tracking-[0.06em] uppercase">— Dinda P., Depok</div>
+      </div>
+      <div class="quote-card bg-white/70 backdrop-blur-md border border-[rgba(247,200,115,0.3)] rounded-lg py-10 px-9 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md relative reveal reveal-delay-4 before:content-['✦'] before:absolute before:top-6 before:left-7 before:text-gold before:opacity-70">
+        <div class="stars text-goldDeep text-[0.9rem] mb-2.5">★★★★★</div>
+        <blockquote class="font-dancing text-[1.5rem] text-mid font-semibold leading-relaxed mb-5">"Berry Dream jadi favorit keluarga — sudah order untuk keempat kalinya!"</blockquote>
+        <div class="quote-author text-[0.82rem] font-bold text-lightText tracking-[0.06em] uppercase">— Farah K., Bekasi</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ORDER SECTION -->
+<section class="order-section py-[120px] bg-gradient-to-br from-[#3A2E28] via-[#5C3D2E] to-[#3A2E28] relative overflow-hidden text-center text-white" id="order">
+  <div class="container max-w-[1200px] mx-auto px-8 md:px-8 relative z-[2]">
+    <span class="absolute -top-5 left-[10%] text-[1.4rem] animate-float opacity-25 pointer-events-none">🍓</span>
+    <span class="absolute top-5 right-[12%] text-[1.2rem] animate-float opacity-20 pointer-events-none" style="animation-delay:-2s">🍯</span>
+    <div class="reveal">
+      <div class="section-label inline-flex items-center gap-2 text-[0.75rem] font-bold tracking-[0.14em] uppercase text-gold mb-4 justify-center before:content-[''] before:w-6 before:h-[1.5px] before:bg-gold before:rounded after:content-[''] after:w-6 after:h-[1.5px] after:bg-gold after:rounded">Hubungi Kami</div>
+      <h2 class="order-title font-poppins font-extrabold text-white leading-[1.15] tracking-[-0.02em] text-[clamp(2.2rem,4vw,3.2rem)] mb-4">
+        <span class="script-accent block font-dancing text-[1.5rem] text-gold font-semibold tracking-normal mb-2">siap dipesan sekarang ✦</span>
+        Order Impianmu<br>Sekarang
+      </h2>
+      <p class="order-sub text-white/65 text-[1rem] font-medium mb-16">Mudah, cepat, dan langsung direspon. Bisa request topping sesuai selera.</p>
+    </div>
+    <div class="order-cards grid md:grid-cols-2 gap-6 max-w-[700px] mx-auto mb-12 reveal">
+      <a href="https://wa.me/6281234567890?text=Halo%20Fruit%20Dream!%20Saya%20ingin%20order%20%F0%9F%8D%93" class="order-card bg-white/10 border border-white/15 rounded-lg py-9 px-7 text-white no-underline transition-all duration-300 hover:bg-white/15 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col items-center gap-4 text-center" target="_blank" rel="noopener">
+        <div class="order-icon wa-icon w-16 h-16 rounded-full flex items-center justify-center text-[1.8rem] bg-[rgba(37,211,102,0.2)] border border-[rgba(37,211,102,0.4)]">💬</div>
+        <h3 class="font-poppins text-[1.05rem] font-bold text-white">WhatsApp Business</h3>
+        <p class="text-[0.84rem] text-white/60 font-medium leading-relaxed">Chat langsung untuk order, tanya ketersediaan, atau request topping khusus</p>
+        <span class="chip bg-[rgba(247,200,115,0.2)] border border-[rgba(247,200,115,0.35)] text-gold text-[0.72rem] font-bold py-1 px-3 rounded-full tracking-[0.04em]">+62 812-3456-7890</span>
+      </a>
+      <a href="https://instagram.com/fruitdreamsandwich" class="order-card bg-white/10 border border-white/15 rounded-lg py-9 px-7 text-white no-underline transition-all duration-300 hover:bg-white/15 hover:-translate-y-1.5 hover:shadow-2xl flex flex-col items-center gap-4 text-center" target="_blank" rel="noopener">
+        <div class="order-icon ig-icon w-16 h-16 rounded-full flex items-center justify-center text-[1.8rem] bg-[rgba(200,100,150,0.2)] border border-[rgba(200,100,150,0.3)]">📱</div>
+        <h3 class="font-poppins text-[1.05rem] font-bold text-white">Instagram DM</h3>
+        <p class="text-[0.84rem] text-white/60 font-medium leading-relaxed">Lihat galeri sandwich kami yang cantik dan pesan lewat direct message</p>
+        <span class="chip bg-[rgba(247,200,115,0.2)] border border-[rgba(247,200,115,0.35)] text-gold text-[0.72rem] font-bold py-1 px-3 rounded-full tracking-[0.04em]">@fruitdreamsandwich</span>
+      </a>
+    </div>
+    <div class="order-features flex items-center justify-center gap-7 flex-wrap text-[0.85rem] text-white/55 font-semibold tracking-[0.02em] reveal">
+      <span class="flex items-center gap-2 before:content-['✓'] before:text-waGreen before:font-bold">Fast response</span>
+      <span class="flex items-center gap-2 before:content-['✓'] before:text-waGreen before:font-bold">Bisa request topping</span>
+      <span class="flex items-center gap-2 before:content-['✓'] before:text-waGreen before:font-bold">Tersedia untuk catering kecil</span>
+      <span class="flex items-center gap-2 before:content-['✓'] before:text-waGreen before:font-bold">Pickup & delivery area tertentu</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-[#2A2018] py-12 px-8 text-center relative z-[1]">
+  <div class="footer-logo font-dancing text-3xl text-gold mb-3">Fruit Dream 🍓</div>
+  <p class="footer-tagline text-[0.85rem] text-white/40 font-medium tracking-[0.04em] mb-8">Made with love & fresh fruits</p>
+  <div class="footer-socials flex items-center justify-center gap-4 mb-8">
+    <a href="https://instagram.com/fruitdreamsandwich" class="footer-social-btn w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-[1.15rem] no-underline transition-all duration-300 hover:bg-[rgba(247,200,115,0.2)] hover:border-[rgba(247,200,115,0.4)] hover:scale-110 text-white" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://tiktok.com/@fruitdreamsandwich" class="footer-social-btn w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-[1.15rem] no-underline transition-all duration-300 hover:bg-[rgba(247,200,115,0.2)] hover:border-[rgba(247,200,115,0.4)] hover:scale-110 text-white" target="_blank" rel="noopener" aria-label="TikTok">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.32 6.32 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.77 1.52V6.76a4.85 4.85 0 01-1-.07z"/></svg>
+    </a>
+    <a href="https://wa.me/6281234567890" class="footer-social-btn w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-[1.15rem] no-underline transition-all duration-300 hover:bg-[rgba(247,200,115,0.2)] hover:border-[rgba(247,200,115,0.4)] hover:scale-110 text-white" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+  </div>
+  <div class="footer-divider w-[60px] h-px bg-white/10 mx-auto mb-6"></div>
+  <p class="footer-copy text-[0.78rem] text-white/25 font-medium">© 2025 Fruit Dream Sandwich · All rights reserved</p>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); });
+  
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
+  
+  // Hero entrance animation
+  document.addEventListener('DOMContentLoaded', () => {
+    const heroEls = document.querySelectorAll('.hero-tag, .hero-headline, .hero-script, .hero-sub, .hero-cta, .hero-visual');
+    heroEls.forEach((el, i) => {
+      el.style.opacity = '0'; el.style.transform = 'translateY(24px)';
+      setTimeout(() => { el.style.transition = 'opacity 0.7s ease, transform 0.7s ease'; el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }, 150 + i * 100);
+    });
+  });
+</script>
+</body>
+</html>
+```
